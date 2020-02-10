@@ -36,6 +36,7 @@ func main() {
 				vendor := s.Text()[22:]
 				fmt.Print(inputmac+" ")
 				fmt.Println(vendor)
+				return
 			}
 		}
 		err = s.Err()
