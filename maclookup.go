@@ -53,6 +53,8 @@ func main() {
 		return
 	} else {
 		mac := strings.Replace(inputmac, ":", "", -1)
+		mac = strings.Replace(mac, "-", "", -1)
+		mac = strings.Replace(mac, ".", "", -1)
 		mac = mac[:6]
 		mac = strings.ToUpper(mac)
 		fptr := flag.String("fpath", filepath, "file path to read from")
