@@ -43,9 +43,14 @@ func main() {
 			panic(err)
 		}
 	}
+	if len(os.Args) != 2 {
+		println("Mac is invalid. Usage $maclookup MAC_ADDRESS")
+		return
+	}
 	inputmac := os.Args[1]
 	if _, err := net.ParseMAC(inputmac); err != nil {
 		println("Mac is invalid. Usage $maclookup MAC_ADDRESS")
+		return
 	} else {
 		mac := strings.Replace(inputmac, ":", "", -1)
 		mac = mac[:6]
