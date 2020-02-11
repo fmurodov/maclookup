@@ -3,10 +3,10 @@ package main
 import (
 	"bufio"
 	"flag"
-	"log"
-	"os"
-	"net"
 	"fmt"
+	"log"
+	"net"
+	"os"
 	"strings"
 )
 
@@ -34,7 +34,7 @@ func main() {
 		for s.Scan() {
 			if strings.Contains(s.Text(), mac) {
 				vendor := s.Text()[22:]
-				fmt.Print(inputmac+" ")
+				fmt.Print(inputmac + " ")
 				fmt.Println(vendor)
 				return
 			}
