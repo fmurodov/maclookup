@@ -12,7 +12,7 @@ import (
 	"strings"
 )
 
-func DownloadFile(filepath string, url string) error {
+func downloadFile(filePath string, url string) error {
 
 	// Get the data
 	resp, err := http.Get(url)
@@ -22,7 +22,7 @@ func DownloadFile(filepath string, url string) error {
 	defer resp.Body.Close()
 
 	// Create the file
-	out, err := os.Create(filepath)
+	out, err := os.Create(filePath)
 	if err != nil {
 		return err
 	}
@@ -33,13 +33,13 @@ func DownloadFile(filepath string, url string) error {
 	return err
 }
 func main() {
-	fileUrl := "http://standards-oui.ieee.org/oui.txt"
-	cachedir, err := os.UserCacheDir()
-	filepath := cachedir + "/maclookup_oui.txt"
+	fileURL := "http://standards-oui.ieee.org/oui.txt"
+	cacheDir, err := os.UserCacheDir()
+	filePath := cacheDir + "/maclookup_oui.txt"
 
-	if _, err = os.Stat(filepath); os.IsNotExist(err) {
+	if _, err = os.Stat(filePath); os.IsNotExist(err) {
 		fmt.Println("Downloading OUI cache")
-		if err = DownloadFile(filepath, fileUrl); err != nil {
+		if err = downloadFile(filePath, fileURL); err != nil {
 			panic(err)
 		}
 	}
@@ -47,17 +47,17 @@ func main() {
 		println("Mac is invalid. Usage $maclookup MAC_ADDRESS")
 		return
 	}
-	inputmac := os.Args[1]
-	if _, err := net.ParseMAC(inputmac); err != nil {
+	inputMAC := os.Args[1]
+	if _, err := net.ParseMAC(inputMAC); err != nil {
 		println("Mac is invalid. Usage $maclookup MAC_ADDRESS")
 		return
 	} else {
-		mac := strings.Replace(inputmac, ":", "", -1)
+		mac := strings.Replace(inputMAC, ":", "", -1)
 		mac = strings.Replace(mac, "-", "", -1)
 		mac = strings.Replace(mac, ".", "", -1)
 		mac = mac[:6]
 		mac = strings.ToUpper(mac)
-		fptr := flag.String("fpath", filepath, "file path to read from")
+		fptr := flag.String("fpath", filePath, "file path to read from")
 		flag.Parse()
 
 		f, err := os.Open(*fptr)
@@ -73,7 +73,7 @@ func main() {
 		for s.Scan() {
 			if strings.Contains(s.Text(), mac) {
 				vendor := s.Text()[22:]
-				fmt.Print(inputmac + " ")
+				fmt.Print(inputMAC + " ")
 				fmt.Println(vendor)
 				return
 			}
