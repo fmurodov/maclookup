@@ -51,36 +51,35 @@ func main() {
 	if _, err := net.ParseMAC(inputMAC); err != nil {
 		println("Mac is invalid. Usage $maclookup MAC_ADDRESS")
 		return
-	} else {
-		mac := strings.Replace(inputMAC, ":", "", -1)
-		mac = strings.Replace(mac, "-", "", -1)
-		mac = strings.Replace(mac, ".", "", -1)
-		mac = mac[:6]
-		mac = strings.ToUpper(mac)
-		fptr := flag.String("fpath", filePath, "file path to read from")
-		flag.Parse()
+	}
+	mac := strings.Replace(inputMAC, ":", "", -1)
+	mac = strings.Replace(mac, "-", "", -1)
+	mac = strings.Replace(mac, ".", "", -1)
+	mac = mac[:6]
+	mac = strings.ToUpper(mac)
+	fptr := flag.String("fpath", filePath, "file path to read from")
+	flag.Parse()
 
-		f, err := os.Open(*fptr)
-		if err != nil {
+	f, err := os.Open(*fptr)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer func() {
+		if err = f.Close(); err != nil {
 			log.Fatal(err)
 		}
-		defer func() {
-			if err = f.Close(); err != nil {
-				log.Fatal(err)
-			}
-		}()
-		s := bufio.NewScanner(f)
-		for s.Scan() {
-			if strings.Contains(s.Text(), mac) {
-				vendor := s.Text()[22:]
-				fmt.Print(inputMAC + " ")
-				fmt.Println(vendor)
-				return
-			}
+	}()
+	s := bufio.NewScanner(f)
+	for s.Scan() {
+		if strings.Contains(s.Text(), mac) {
+			vendor := s.Text()[22:]
+			fmt.Print(inputMAC + " ")
+			fmt.Println(vendor)
+			return
 		}
-		err = s.Err()
-		if err != nil {
-			log.Fatal(err)
-		}
+	}
+	err = s.Err()
+	if err != nil {
+		log.Fatal(err)
 	}
 }
