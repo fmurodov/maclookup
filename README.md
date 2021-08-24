@@ -1,3 +1,5 @@
+[![golangci-lint](https://github.com/firdavsich/maclookup/actions/workflows/lint.yml/badge.svg)](https://github.com/firdavsich/maclookup/actions/workflows/lint.yml)
+
 # maclookup
 MAC vendor lookup cli tool
 
