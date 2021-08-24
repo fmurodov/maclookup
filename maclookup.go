@@ -35,6 +35,10 @@ func downloadFile(filePath string, url string) error {
 func main() {
 	fileURL := "http://standards-oui.ieee.org/oui.txt"
 	cacheDir, err := os.UserCacheDir()
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 	filePath := cacheDir + "/maclookup_oui.txt"
 
 	if _, err = os.Stat(filePath); os.IsNotExist(err) {
