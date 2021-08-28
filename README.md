@@ -1,4 +1,5 @@
 [![golangci-lint](https://github.com/firdavsich/maclookup/actions/workflows/lint.yml/badge.svg)](https://github.com/firdavsich/maclookup/actions/workflows/lint.yml)
+[![Go Report Card](https://goreportcard.com/badge/github.com/firdavsich/maclookup)](https://goreportcard.com/report/github.com/firdavsich/maclookup)
 
 # maclookup
 MAC vendor lookup cli tool
