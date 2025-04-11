@@ -19,14 +19,22 @@ func downloadFile(filePath string, url string) error {
 	if err != nil {
 		return err
 	}
-	defer resp.Body.Close()
+	defer func() {
+		if err := resp.Body.Close(); err != nil {
+			fmt.Fprintf(os.Stderr, "Error closing response body: %v\n", err)
+		}
+	}()
 
 	// Create the file
 	out, err := os.Create(filePath)
 	if err != nil {
 		return err
 	}
-	defer out.Close()
+	defer func() {
+		if err := out.Close(); err != nil {
+			fmt.Fprintf(os.Stderr, "Error closing output file: %v\n", err)
+		}
+	}()
 
 	// Write the body to file
 	_, err = io.Copy(out, resp.Body)
@@ -56,9 +64,9 @@ func main() {
 		println("Mac is invalid. Usage $maclookup MAC_ADDRESS")
 		return
 	}
-	mac := strings.Replace(inputMAC, ":", "", -1)
-	mac = strings.Replace(mac, "-", "", -1)
-	mac = strings.Replace(mac, ".", "", -1)
+	mac := strings.ReplaceAll(inputMAC, ":", "")
+	mac = strings.ReplaceAll(mac, "-", "")
+	mac = strings.ReplaceAll(mac, ".", "")
 	mac = mac[:6]
 	mac = strings.ToUpper(mac)
 	fptr := flag.String("fpath", filePath, "file path to read from")
