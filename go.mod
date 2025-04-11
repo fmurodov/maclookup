@@ -1,3 +1,3 @@
-module github.com/firdavsich/maclookup
+module github.com/fmurodov/maclookup
 
-go 1.17
+go 1.24
